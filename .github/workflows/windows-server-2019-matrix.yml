@@ -7,7 +7,7 @@ jobs:
     runs-on: windows-2019
     strategy:
       matrix:
-        package: [dirent, eigen3, fontconfig, freetype, harfbuzz, libepoxy, libogg, libpng, toml11, opus, opusfile, qt5-base, qt5-declarative, qt5-quickcontrols, sdl2, sdl2-image]
+        package: [dirent, eigen3, fontconfig, freetype, harfbuzz, libepoxy, libogg, libpng, toml11, opus, opusfile, qtbase, qtdeclarative, sdl2, sdl2-image]
         triplet: [x86-windows, x64-windows]
     steps:
     - uses: actions/checkout@v2
