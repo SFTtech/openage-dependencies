@@ -8,9 +8,9 @@ jobs:
     strategy:
       matrix:
         package: [dirent, eigen3, fontconfig, freetype, harfbuzz, libepoxy, libogg, libpng, toml11, opus, opusfile, qtbase, qtdeclarative, sdl2, sdl2-image]
-        triplet: [x86-windows, x64-windows]
+        triplet: [x64-windows]
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
       with:
         submodules: recursive
         path: source
@@ -34,7 +34,7 @@ jobs:
         TRIPLET: ${{ matrix.triplet }}
       shell: pwsh
     - name: Publish exported dependencies
-      uses: actions/upload-artifact@v2.2.4
+      uses: actions/upload-artifact@v3
       with:
         name: ${{ format('openage-dep.{0}.{1}.zip', matrix.package, matrix.triplet) }}
         path: ${{ format('./package-{0}-{1}.zip', matrix.package, matrix.triplet) }}
@@ -45,7 +45,7 @@ jobs:
     runs-on: windows-2019
     needs: build
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
       with:
         submodules: recursive
         path: source
@@ -54,7 +54,7 @@ jobs:
         mkdir downloads
       shell: pwsh
     - name: Download built packages
-      uses: actions/download-artifact@v2
+      uses: actions/download-artifact@v3
       with:
         path: ${{ format('{0}/downloads', github.workspace) }}
     - name: Move
@@ -79,7 +79,7 @@ jobs:
     - name: Merge
       run: |
         $package_dirs = Get-ChildItem -Path ./packages -Directory
-        $flavours = "x86-windows", "x64-windows"
+        $flavours = ,"x64-windows"
         foreach($flavour in $flavours){
           $dir_name = "merge-$($flavour)"
           mkdir $dir_name
@@ -101,16 +101,8 @@ jobs:
           Remove-Item $dir_name -Recurse -Force
         }
       shell: pwsh
-
     - name: Publish dependency bundles
-      uses: actions/upload-artifact@v2.2.4
-      with:
-        name: openage-dep-x86-windows.zip
-        path: ./merge-x86-windows.zip
-        if-no-files-found: error
-        retention-days: 30
-    - name: Publish dependency bundles
-      uses: actions/upload-artifact@v2.2.4
+      uses: actions/upload-artifact@v3
       with:
         name: openage-dep-x64-windows.zip
         path: ./merge-x64-windows.zip
