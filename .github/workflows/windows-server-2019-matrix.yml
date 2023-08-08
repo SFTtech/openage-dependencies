@@ -8,7 +8,7 @@ jobs:
     strategy:
       matrix:
         package: [dirent, eigen3, fontconfig, freetype, harfbuzz, libepoxy, libogg, libpng, toml11, opus, opusfile, qtbase, qtdeclarative, sdl2, sdl2-image]
-        triplet: [x86-windows, x64-windows]
+        triplet: [x64-windows]
     steps:
     - uses: actions/checkout@v3
       with:
@@ -79,7 +79,7 @@ jobs:
     - name: Merge
       run: |
         $package_dirs = Get-ChildItem -Path ./packages -Directory
-        $flavours = "x86-windows", "x64-windows"
+        $flavours = ,"x64-windows"
         foreach($flavour in $flavours){
           $dir_name = "merge-$($flavour)"
           mkdir $dir_name
@@ -101,14 +101,6 @@ jobs:
           Remove-Item $dir_name -Recurse -Force
         }
       shell: pwsh
-
-    - name: Publish dependency bundles
-      uses: actions/upload-artifact@v3
-      with:
-        name: openage-dep-x86-windows.zip
-        path: ./merge-x86-windows.zip
-        if-no-files-found: error
-        retention-days: 30
     - name: Publish dependency bundles
       uses: actions/upload-artifact@v3
       with:
