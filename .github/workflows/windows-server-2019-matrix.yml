@@ -7,10 +7,10 @@ jobs:
     runs-on: windows-2019
     strategy:
       matrix:
-        package: [dirent, eigen3, fontconfig, freetype, harfbuzz, libepoxy, libogg, libpng, toml11, opus, opusfile, qtbase, qtdeclarative, sdl2, sdl2-image]
+        package: [dirent, eigen3, fontconfig, freetype, harfbuzz, libepoxy, libogg, libpng, toml11, opus, opusfile, qtbase, qtdeclarative, qtmultimedia]
         triplet: [x64-windows]
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
         submodules: recursive
         path: source
@@ -45,7 +45,7 @@ jobs:
     runs-on: windows-2019
     needs: build
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
         submodules: recursive
         path: source
